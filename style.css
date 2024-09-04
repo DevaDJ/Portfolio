@@ -56,7 +56,11 @@ nav img {
   height: 50px;
   animation: logo-fade-in 2s ease-out forwards;
 }
-
+header nav img {
+  object-fit: contain;
+  filter: invert(70%) sepia(96%) saturate(558%) hue-rotate(359deg)
+    brightness(103%) contrast(106%);
+}
 nav ul {
   list-style-type: none;
   animation: fade-in 2s ease-in forwards;
@@ -242,7 +246,7 @@ section .description p {
 }
 
 /* Skill Cards */
-.skills .cards {
+/* .skills .cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -282,7 +286,62 @@ section .description p {
   margin: 10px 0;
   color: white;
 }
+ */
+ 
+.skills {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 100px;
+}
 
+/* .skills h1 {
+  font-size: 56px;
+  font-weight: 700;
+  color: #fbfbfb;
+  font-family: "Libre Baskerville", serif;
+} */
+
+.cards {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 50px;
+  gap: 2.5vh;
+}
+
+.skill-card {
+  height: 20vw;
+  width: 20vw;
+  background-color: #3d3e42;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5vh;
+  transition: all ease 0.5s;
+}
+
+.skill-card:hover {
+  background-color: #fec86a;
+}
+
+.skill-card img {
+  height: 7.5vw;
+  width: 7.5vw;
+  object-fit: contain;
+}
+
+.skill-card h2 {
+  font-size: 24px;
+  font-weight: 400;
+  color: #fbfbfb;
+}
 /* Portfolio Cards */
 .portfolio-cards {
   display: flex;
@@ -308,7 +367,7 @@ section .description p {
 }
 
 .portfolio-card img {
-  width: 100%;
+  width: 150%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s;
@@ -336,6 +395,9 @@ section .description p {
 }
 
 /* Experience and Education */
+.education h1{
+color: #1a1a1a;
+}
 .exp, .education {
   display: flex;
   flex-direction: column;
@@ -395,6 +457,34 @@ section .description p {
   color: #ff9800;
 }
 
+.contact-card{
+  height: 35px;
+  width: 150px;
+  margin-top: 2.5vh;
+  margin-left: 0vw;
+  background-color: transparent;
+  border: 2px solid #fec86a;
+  border-radius: 8px;
+  text-shadow: #fec86a;
+  color: #fec86a;
+  font-size: 16px;
+  transition: all ease 0.5s;
+  animation: button-bounce 2s infinite
+}
+.contact-card a {
+  color:#fec86a;
+}
+
+.contact-card:hover {
+  background-color: #ec781ad3;
+  
+}
+.contact-card a:hover {
+ color: #000;
+ padding: 10px 10px;
+}
+
+
 /* Animations */
 @keyframes fade-in {
   0% { opacity: 0; transform: translateY(20px); }
@@ -420,58 +510,168 @@ section .description p {
 
 /* Mobile */
 @media (max-width: 767px) {
+  /* General Adjustments */
+  body, html {
+    overflow-x: hidden;
+    font-size: 16px; /* Slightly smaller base font size */
+    line-height: 1.5;
+  }
+
+  header {
+    padding: 10px 20px; /* Reduced padding */
+    background-size: cover; /* Ensure background covers the area */
+  }
+
+@media (max-width: 767px) {
   nav {
-      flex-direction: column;
-      padding: 20px 20px;
+    position: fixed; /* Fixed position to stay at the top */
+    top: 0;
+    width: 90%;
+    z-index: 1000;
+    background-color: #282828; /* Background color for visibility */
+    display: flex;
+    justify-content: space-between; /* Distribute space evenly */
+    align-items: center;
+    padding: 0px 0px; /* Reduced padding */
+    overflow: hidden; /* Prevent overflow */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  }
+
+  nav img {
+    height: 40px; /* Smaller logo size */
   }
 
   nav ul {
-      flex-direction: column;
-      align-items: center;
+    display: flex;
+    align-items: left;
+    justify-content:left;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%; /* Full width for horizontal alignment */
+    overflow-x: auto; /* Scrollable if needed */
   }
 
   nav ul li {
-      margin: 10px 0;
+    margin: 0 0px; /* Space between items */
   }
 
+  nav ul li a {
+    text-size-adjust: 10px;
+    color: white;
+    padding: 10px 15px; /* Padding for touch-friendly */
+    display: inline-block;
+  }
+
+  .spacer {
+    height: 60px; /* Adjust based on the height of your navbar */
+  }
+
+  .content {
+    padding: 70px 20px 20px 20px; /* Offset top padding to prevent overlap */
+  }
+
+  /* Other existing mobile styles... */
+
+  /* Ensure content does not overlap with the navbar */
+  body, html {
+    padding-top: 22px; /* Equal to nav height */
+  }
+}
+
+
   .landing {
-      flex-direction: column;
-      text-align: center;
-/*       padding: 50px 20px; */
-      height: auto;
+    padding: 20px;
+    height: auto; /* Auto height for dynamic content */
+    text-align: center;
+    background-size: cover; /* Ensure background covers the area */
   }
 
   .intro h3 {
-      font-size: 2rem;
+    font-size: 1.8rem;
+    margin-top: 20px;
   }
 
   .intro button {
-      font-size: 0.9rem;
+    font-size: 0.9rem;
+    margin-top: 15px;
   }
 
   .skills .cards,
   .portfolio-cards {
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+    height: auto;
+   /*  margin-top: 20px; */
   }
 
   .skill-card,
   .portfolio-card {
-      width: 80%;
-      margin: 10px 0;
+    width: 100%;
+    margin: 15px 0;
+    height: auto; /* Auto height for dynamic content */
+  }
+
+  .skill-card img,
+  .portfolio-card img {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
   }
 
   .contact {
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 10px;
   }
 
   .contact-card {
-      width: 100%;
-      justify-content: center;
-      text-align: center;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .contact-card i {
+    font-size: 1.5rem;
+  }
+
+  .contact-card a {
+    font-size: 0.9rem;
+  }
+
+  .socials {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .socials .line {
+    width: 30px;
+    margin-bottom: 10px;
+  }
+
+  .socials a {
+    margin: 5px 0;
+    font-size: 1.5rem;
+  }
+
+  /* Footer and Other Sections */
+  footer, section, .content, .exp, .education {
+    padding: 20px 10px; /* Consistent padding for all sections */
+    text-align: center; /* Center align text */
+  }
+
+  .exp h2, .education h2 {
+    font-size: 1.5rem;
+  }
+
+  .exp-desc, .education-desc {
+    margin-top: 10px;
+    font-size: 0.9rem;
   }
 }
+
 
 /* Tablet */
 @media (min-width: 768px) and (max-width: 1024px) {
