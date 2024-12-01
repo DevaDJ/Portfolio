@@ -1,0 +1,120 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    background: linear-gradient(45deg,#a8c0ff, #3f4c6b, #00bcd4, #1de9b6); /* Original colors */
+    background-size: 400% 400%; /* Spread the gradient across the entire area */
+    animation: gradientAnimation 10s ease infinite; /* Longer duration for smoothness */
+}
+
+/* Keyframe for gradient animation */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    25% {
+        background-position: 50% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    75% {
+        background-position: 50% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Blog Post Container */
+.blog-post-container {
+    width: 80%;
+    margin: 30px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Post Header */
+.blog-post header {
+    margin-bottom: 20px;
+}
+
+.blog-post header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.blog-post .post-meta {
+    font-size: 14px;
+    color: #777;
+}
+
+/* Step Section */
+.step {
+    margin-bottom: 30px;
+}
+
+.step h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.step p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.step-image {
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin: 15px 0;
+}
+
+.command-line {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 16px;
+    color: #555;
+}
+
+footer p {
+    margin-bottom: 10px;
+}
+
+/* Center-align the image */
+.step img {
+    display: block;           /* Ensures the image is treated as a block-level element */
+    margin-left: auto;        /* Aligns the image to the left */
+    margin-right: auto;       /* Aligns the image to the right */
+    border: 5px solid #ccc;  /* Adds a light grey border */
+    border-radius: 10px;     /* Adds rounded corners to the border */
+    padding: 10px;           /* Adds space between the image and the border */
+    max-width: 100%;         /* Ensures the image is responsive */
+    height: auto;            /* Maintains the aspect ratio */
+}
+
+.step img:hover {
+    border-color: #007bff;   /* Changes the border color on hover */
+    transform: scale(1.05);   /* Slight zoom effect on hover */
+    transition: transform 0.3s, border-color 0.3s; /* Smooth transition for hover effect */
+}

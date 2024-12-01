@@ -1,0 +1,229 @@
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Container - Main Section */
+.container {
+    height: 100vh;
+    padding: 36px 100px;
+    background-image: url(https://cyberkiller.tech/Background.png);
+    background-position: right;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 100vw;
+    background-image: url(./Background.png);
+    /*background: linear-gradient(45deg, #1a237e, #00bcd4, #1de9b6, #ff6f00);*/
+    background-size: 200% 200%;
+    animation: gradientAnimation 30s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    box-sizing: border-box; /* Ensure padding doesn't overflow */
+}
+
+/* Keyframe for gradient animation */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Content Section */
+.content {
+    text-align: center;
+}
+
+.content h1 {
+    font-size: 3em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.content p {
+    font-size: 1.2em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.content i {
+    text-align: left;
+    color: white;
+    text-shadow: rgb(95, 53, 53);
+    width: 40px;
+    height: 20px;
+}
+
+.content a {
+    font-size: 2em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+/* LinkedIn Icon Animation */
+.content .linkedin-link img {
+    transition: transform 0.3s ease;
+}
+
+.content .linkedin-link img:hover {
+    transform: scale(1.1);
+}
+
+/* Table of Content Section */
+.left-aligned-text {
+    text-align: center; /* Center the content */
+    background-image: url(https://giffiles.alphacoders.com/174/1744.gif);
+    background-size: 100% 100%;
+    animation: gradientAnimation 100s ease infinite;
+    color: #fff;
+    height: 100vh; /* Full height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center content */
+    align-items: center; /* Horizontally center content */
+    padding: 36px 20px; /* Adjusted padding for better mobile fit */
+    background-repeat: no-repeat;
+    width: 100vw;
+    box-sizing: border-box;
+}
+
+/* Table of Contents Styling */
+.left-aligned-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: white;
+    text-align: center;
+}
+
+.left-aligned-text ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+.left-aligned-text li {
+    display: inline-block; /* Allow each list item to behave like a button */
+    margin: 10px 0;
+}
+
+.left-aligned-text li::marker {
+    font-size: 50px;
+    color: rgb(179, 1, 1); 
+}
+
+/* Links in Table of Contents */
+.left-aligned-text a {
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark background */
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 12px 25px; /* Button-like padding */
+    border-radius: 8px; /* Rounded corners */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+}
+
+/* Hover effect for buttons */
+.left-aligned-text a:hover {
+    background-color: #ff6f00; /* Highlight color on hover */
+    color: #fff;
+    transform: scale(1.05); /* Slightly scale up the button */
+}
+
+/* Footer Section */
+footer {
+    text-align: center;
+    background-color: white;
+    color: #333;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    font-size: 0.9rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-shadow: #1a237e;
+}
+
+/* Navigation Header */
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    z-index: 99;
+    padding: 10px 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Make nav semi-transparent */
+}
+
+header nav img {
+    height: 56px;
+    width: 56px;
+    object-fit: contain;
+    filter: invert(70%) sepia(96%) saturate(558%) hue-rotate(359deg) brightness(103%) contrast(106%);
+}
+
+header nav ul {
+    display: flex;
+}
+
+header nav ul li {
+    list-style: none;
+    margin: 0 20px;
+}
+
+header nav ul li a {
+    color: #98999a;
+    text-decoration: none;
+    transition: all ease 0.5s;
+}
+
+header nav ul li a:hover {
+    color: #fbfbfb;
+}
+
+header nav ul li .active {
+    color: #fbfbfb;
+}
+
+header nav .search {
+    height: 48px;
+    width: 200px;
+    background-color: #3d3e42;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 4px;
+    border-radius: 10px;
+}
+
+header nav .search input {
+    border: none;
+    background-color: transparent;
+    width: 80%;
+    color: #fbfbfb;
+    outline: none;
+}
+
+header nav .search input:focus {
+    border: none;
+    outline: none;
+}
+
+header nav .search input::placeholder {
+    color: #98999a;
+    font-size: 16px;
+}
+
+header nav .search i {
+    color: #98999a;
+}

