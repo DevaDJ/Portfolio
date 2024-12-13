@@ -90,6 +90,9 @@ body {
     margin-top: 10px;
 }
 
+.end {
+    align: center;
+}
 footer {
     margin-top: 30px;
     text-align: center;
