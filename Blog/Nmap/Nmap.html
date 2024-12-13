@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use Nmap</title>
+    <style>
+        body {
+            margin: 10px;
+        }
+
+        .container {
+            background: linear-gradient(45deg, #1a237e, #00bcd4, #1de9b6, #ff6f00);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s ease infinite;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            padding: 150px;
+            text-align: justify;
+            border: #00bcd4;
+            justify-content: center;
+            height: 125vh;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        .Justify {
+            text-align: justify;
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 0;
+        }
+   
+       th {
+            background-color: #4b2822;
+            text-align: center;
+            padding: 8px;
+            border: 3px solid black;
+        }
+        h3 {
+            text-align: left;
+            color: white;
+
+        }
+        table {
+            border: 3px solid black;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td {
+            border: 3px solid black;
+            padding: 8px;
+            text-align: left; Align table data to the left
+        }
+        h2 {
+            text-align: left;
+            color: #b4783f;
+            text-shadow: #ee0db6;
+        }
+        footer {
+            text-align: center;
+            box-shadow: black;
+            background-color: whitesmoke;
+            text-rendering: optimizeLegibility;
+            text-decoration: wavy;
+          } 
+        /* .soon {
+            text-align: center;
+            position: absolute;
+            color: silver;
+            align-content:center ;
+            font-family: arial, sans-serif;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 0;
+        } */
+        .happy {
+            text-align: justify;
+        }
+
+        p {
+            font-size: 1.2em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+           
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Network Scan Using Nmap</h1>
+            <p>Welcome to the cyber world!</p>
+            <h2>Step 1: Nmap Introduction</h2>
+               <p class="Justify">
+                Nmap is an open-source command-line tool commonly used on Linux systems to scan IP addresses, domain names, and ports within a network. It's designed to detect and identify installed services on target systems. 
+                Nmap allows security teams to identify devices operating within their targeted network, discover open ports and associated services, and even detect the presence of specific operating systems, intrusion prevention systems (IPS), and intrusion detection systems (IDS). 
+                Nmap is a preinstalled scanning tool on Kali Linux. It is widely regarded as one of the best open-source network scanning tools available.
+                Alternatively, Nmap have a GUI-based network scanning tool called Zenmap.
+        
+                <h2>Step 2: Key Features of Nmap</h2>
+                <h3>Host Discovery:</h3>
+                <p class="happy"> Explain how Nmap can be used to discover active hosts on a network.</p>
+                <h3>Port Scanning:</h3>
+                <p class="happy">Discuss different port scanning techniques, such as TCP SYN scan, UDP scan, and TCP connect scan.</p>
+                <h3>Service Detection:</h3>
+                <p class="happy">Explain how Nmap can identify services running on open ports.</p>
+                <h3 >OS Fingerprinting:</h3>
+                <p class="happy">Describe how Nmap can determine the operating system of target hosts.</p>
+                <h3>Scripting Engine:</h3>
+                <p class="happy">Highlight Nmap's scripting engine (NSE) and its use in automating tasks and performing advanced scans.</p>
+            </p>
+               <h2>Step 3: Nmap Setup</h2>
+               <p class="Justify">
+                You can download Nmap by clicking the <a href="https://nmap.org/download.html">'Download'</a> button. Additionally, please remember to select the appropriate version for Windows, Mac or Linux.
+                Linux Installation  : To installl .deb package use "sudo dpkg -i packagename.deb", or install .rpm package use "sudo rpm -i package_name.rpm".
+                Windows Installation: Normal Installation (Next, Next, Install, etc..).
+               </p>
+              
+                <h2>Step 4: Nmap Commands</h2>
+               <Table border="3px">
+                <tr>
+                    <th>Command</th>
+                    <th>Detailed Ovrerview</th>
+                </tr>
+                <tr>
+                    <td>nmap -sS 192.168.1.0/24</td>
+                    <td>[-sS, -Pn] -Discover all the hosts, ports and services insite the network [TCP SYN scan]</td>
+                </tr>
+                <tr>
+                    <td>nmap -p 80, 22, 21 [IP Address]</td>
+                    <td>[-p] -Only scan for the specific port of the host</td>
+                </tr>
+                <tr>
+                    <td>nmap -v -version-all [IP Address]</td>
+                    <td>[-v] -Discover all the services on verbose mode it will show all the actual steps happening in background</td>
+                </tr>
+                <tr>
+                    <td>nmap -v -O 192.168.1.210</td>
+                    <td>[-O] -Detect the OS running on the host</td>
+                </tr>
+                <tr>
+                    <td>nmap -v -T5 -O [IP Address]</td>
+                    <td>[T1-5] -is used to reduce the scan time</td>
+                </tr>
+                <tr>
+                    <td>nmap -v -O [IP Address] -o scan.txt</td>
+                    <td>[-o] -Save the output file</td>
+                </tr>
+                <tr>
+                    <td>nmap -sV [IP Address]</td>
+                    <td>[-sV] -It will detect the services version</td>
+                </tr>
+                <tr>
+                    <td>nmap -p445 --script smb-protocols [IP Address]</td>
+                    <td>[-script smb-protocols] -Script scan for the specific protocol</td>
+                </tr>
+                <tr>
+                    <td>nmap -A [IP Address]</td>
+                    <td>[-A] - Would be the full scan</td>
+                </tr>
+
+               </Table>
+                </div>
+        </div>
+    </div>
+    <footer>
+        <i> &copy;2023 Devaraj. All rights reserved.</i><br>
+        <a href="https://www.linkedin.com/in/devaraj-govindhan-b143b2193/"><img src="Footer/Linkedin-logo.png"width="40px"height="25px"></a>
+        <a href="https://www.youtube.com/channel/UC6St3C3e1qxoeZHYni9COlA"><img src="Footer/YouTube-Logo.png"width="50px"height="25px"></a>
+        <!-- You can add any other footer content here -->
+    </p>
+      </footer>
+</body>
+</html>
