@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NPM Supply Chain Attack – Adversary Report Summary</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1, h2, h3 {
+      color: #b30000;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .highlight {
+      background-color: #ffeaea;
+      padding: 1rem;
+      border-left: 5px solid #e60000;
+      margin-bottom: 1rem;
+    }
+
+    .image-placeholder {
+      background: #ddd;
+      height: 200px;
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #555;
+    }
+
+    a {
+      color: #0066cc;
+    }
+
+    footer {
+      font-size: 0.9rem;
+      text-align: center;
+      border-top: 1px solid #ccc;
+      margin-top: 2rem;
+      padding-top: 1rem;
+    }
+
+    ul {
+      margin-left: 1.5rem;
+    }
+
+    code {
+      background: #eee;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+
+    table{width:100%;border-collapse:collapse;margin-top:8px}
+    th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #eee;font-size:14px}
+    th{font-weight:600;color:#b30000}
+
+    .muted{color:#666}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>NPM Supply Chain Attack — Adversary Report Summary</h1>
+    <p class="muted"><strong>Published:</strong> Sep 9, 2025 • <strong>Author:</strong> Deva</p>
+
+    <h2>1. Executive Summary</h2>
+    <p>On <strong>September 8, 2025</strong>, a large-scale supply chain attack targeted the npm ecosystem after attackers compromised the account of maintainer <strong>Josh “Qix” Junon</strong> via a phishing campaign. Using the fake domain <code>npmjs[.]help</code>, attackers obtained credentials and published malicious versions of <strong>18</strong> widely used npm packages (for example: <em>chalk, debug, ansi-styles, strip-ansi</em>), totaling approximately <strong>2.6 billion</strong> weekly downloads.</p>
+
+    <p>The injected malware was crafted to intercept cryptocurrency and Web3 wallet activity in browsers and silently redirect transactions to attacker-controlled wallets. Although the malicious updates were removed within hours, the incident demonstrates how a single compromised maintainer account can create systemic risks across the software ecosystem.</p>
+
+    <h2>2. Attack Timeline</h2>
+    <table>
+      <thead><tr><th>Date</th><th>Event</th></tr></thead>
+      <tbody>
+        <tr><td>Sep 5, 2025</td><td>Domain <code>npmjs[.]help</code> registered by threat actor.</td></tr>
+        <tr><td>Sep 8, 2025 09:00 ET</td><td>Phishing email sent to npm maintainers urging 2FA update before Sept 10.</td></tr>
+        <tr><td>Sep 8, 2025 09:15 ET</td><td>Maintainer account (Josh “Qix” Junon) compromised after clicking link on mobile device.</td></tr>
+        <tr><td>Sep 8, 2025 09:30–11:30 ET</td><td>Malicious versions of 18 packages published, affecting fresh installs with new lockfiles.</td></tr>
+        <tr><td>Sep 8, 2025 13:16 UTC</td><td>Aikido Security detects abnormal package updates and alerts the maintainer.</td></tr>
+        <tr><td>Sep 8, 2025 15:15 UTC</td><td>Cleanup begins: compromised packages unpublished or rolled back by npm team.</td></tr>
+        <tr><td>Sep 9, 2025</td><td>Public disclosure by multiple vendors and community researchers.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. Technical Analysis</h2>
+    <h3>3.1 Attack Vector</h3>
+    <p class="muted">Initial access was gained via a spearphishing email from <code>support@npmjs[.]help</code> which led to a fake login page. Credentials submitted to that page were sent to a malicious endpoint at:</p>
+    <p><code>https://websocket-api2[.]publicvm[.]com/images/jpg-to-png.php?name=[name]&pass=[password]</code></p>
+    <p>With the stolen credentials the adversary published trojanized package updates directly to npm.</p>
+
+    <h3>3.2 Malware Behavior</h3>
+    <ul>
+      <li><strong>Injection & Hooking:</strong> Malicious code injected into <code>index.js</code> hooked browser APIs (<code>fetch</code>, <code>XMLHttpRequest</code>) and wallet APIs (<code>window.ethereum</code>, Solana APIs).</li>
+      <li><strong>Surveillance:</strong> Scanned responses and transaction payloads for cryptocurrency addresses across ETH, BTC, SOL, TRX, LTC, BCH.</li>
+      <li><strong>Replacement:</strong> Rewrote legitimate recipient addresses with attacker-controlled addresses (often lookalikes).</li>
+      <li><strong>Hijacking:</strong> Altered transaction parameters before signing so funds were rerouted even when the UI appeared normal.</li>
+      <li><strong>Stealth:</strong> Heavy obfuscation (_0x-style variables), fake success responses, and minimized UI changes to avoid detection.</li>
+    </ul>
+
+    <h3>3.3 Scope & Dependency Risk</h3>
+    <p class="muted">A total of <strong>18 packages</strong> were modified. While these packages are deeply embedded across the JavaScript ecosystem, many projects use locked dependency files (<code>package-lock.json</code>) which limited exposure to fresh installs performed during the ~2.5-hour attack window.</p>
+
+    <h2>4. Victim Impact</h2>
+    <p><strong>Theoretical Reach:</strong> ~2.6–2.7 billion downloads per week.</p>
+    <p class="muted"><strong>Practical Impact:</strong> The real-world impact was primarily limited to fresh installs or builds that regenerated lockfiles during the compromise window. Applications that interact with Web3 wallets were the primary risk vector; standard non-crypto apps were unaffected by the wallet-specific payload.</p>
+
+    <h2>5. Adversary Tactics & Indicators</h2>
+    <h3>5.1 Attribution</h3>
+    <p class="muted">Threat actor: Unknown — likely financially motivated to steal cryptocurrency. Observed and reported by Aikido Security, Privy, SOCRadar, and multiple community researchers.</p>
+
+    <h3>5.2 MITRE ATT&CK Mapping</h3>
+    <table>
+      <thead><tr><th>Tactic</th><th>Technique &amp; ID</th></tr></thead>
+      <tbody>
+        <tr><td>Initial Access</td><td>Phishing: Spearphishing Link — T1566.002</td></tr>
+        <tr><td>Credential Access</td><td>Capture Application Credentials — T1556</td></tr>
+        <tr><td>Execution</td><td>Command &amp; Scripting Interpreter (JS injection) — T1059</td></tr>
+        <tr><td>Collection</td><td>Automated Collection / API hooks — T1119</td></tr>
+        <tr><td>Exfiltration / Impact</td><td>Data Manipulation (wallet address swapping) — T1565.001</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.3 IOCs</h3>
+    <div class="highlight">
+      <strong>Phishing Domain:</strong> npmjs[.]help<br>
+      <strong>Credential Exfil Endpoint:</strong> websocket-api2[.]publicvm[.]com/images/jpg-to-png.php?name=[name]&pass=[password]<br>
+      <strong>Phishing Email:</strong> support@npmjs.help<br>
+      <strong>Timeframe:</strong> Sep 8, 2025, 09:00–11:30 ET
+    </div>
+
+    <h3>5.4 Impacted Packages</h3>
+    <p class="muted">The following packages had malicious versions published during the attack window. Download counts are approximate weekly figures.</p>
+    <table>
+      <thead><tr><th>Package Name</th><th>Weekly Downloads (approx.)</th></tr></thead>
+      <tbody>
+        <tr><td>backslash</td><td>0.26 million</td></tr>
+        <tr><td>chalk-template</td><td>3.9 million</td></tr>
+        <tr><td>supports-hyperlinks</td><td>19.2 million</td></tr>
+        <tr><td>has-ansi</td><td>12.1 million</td></tr>
+        <tr><td>simple-swizzle</td><td>26.26 million</td></tr>
+        <tr><td>color-string</td><td>27.48 million</td></tr>
+        <tr><td>error-ex</td><td>47.17 million</td></tr>
+        <tr><td>color-name</td><td>191.71 million</td></tr>
+        <tr><td>is-arrayish</td><td>73.8 million</td></tr>
+        <tr><td>slice-ansi</td><td>59.8 million</td></tr>
+        <tr><td>color-convert</td><td>193.5 million</td></tr>
+        <tr><td>wrap-ansi</td><td>197.99 million</td></tr>
+        <tr><td>ansi-regex</td><td>243.64 million</td></tr>
+        <tr><td>supports-color</td><td>287.1 million</td></tr>
+        <tr><td>strip-ansi</td><td>261.17 million</td></tr>
+        <tr><td>chalk</td><td>299.99 million</td></tr>
+        <tr><td>debug</td><td>357.6 million</td></tr>
+        <tr><td>ansi-styles</td><td>371.41 million</td></tr>
+      </tbody>
+    </table>
+
+    <h2>6. Mitigation & Recommendations</h2>
+    <h3>6.1 Immediate Actions for Developers & Organizations</h3>
+    <ul>
+      <li>Rollback: Ensure usage of safe, pre-compromise versions of affected packages.</li>
+      <li>Audit Dependencies: Check <code>package.json</code> and <code>package-lock.json</code> for updates during the attack window.</li>
+      <li>Monitor Wallet Transactions: Investigate anomalies in crypto-related applications.</li>
+      <li>Enable 2FA & Hardware Keys: Protect maintainer accounts from phishing-based takeovers.</li>
+    </ul>
+
+    <h3>6.2 Strategic Recommendations</h3>
+    <ul>
+      <li>Dependency Hygiene: Pin exact versions in <code>package-lock.json</code> and enable automated integrity checks (e.g., <code>npm audit</code>).</li>
+      <li>Registry Security: Mandatory hardware-based 2FA for npm maintainers and automated anomaly detection for sudden high-impact package updates.</li>
+      <li>Ecosystem Defense: Promote adoption of Software Bills of Materials (SBOMs) and continuous monitoring for obfuscated code patterns in registries.</li>
+    </ul>
+
+    <h2>7. Appendix: IOCs, Logs, and Review Checklist</h2>
+    <h3>7.1 Indicators of Compromise</h3>
+    <p class="muted">Phishing Domain: <code>npmjs[.]help</code><br>Credential Exfil URL: <code>websocket-api2[.]publicvm[.]com</code><br>Packages Compromised: 18 packages (chalk, debug, ansi-styles, strip-ansi, etc.)</p>
+
+    <h3>7.2 Logs to Review</h3>
+    <ul>
+      <li>npm install/update logs during Sep 8, 2025, 09:00–11:30 ET.</li>
+      <li>GitHub Actions / CI logs for dependency pulls.</li>
+      <li>Application error logs showing obfuscated JS injection.</li>
+    </ul>
+
+    <h3>7.3 Search Strings in Code Review</h3>
+    <ul>
+      <li><code>_0x</code>-style obfuscation</li>
+      <li>Hardcoded wallet addresses</li>
+      <li>Hooks to <code>window.ethereum</code>, <code>fetch</code>, <code>XMLHttpRequest</code></li>
+    </ul>
+
+    <h2>8. Conclusion</h2>
+    <p>The Largest npm Supply Chain Compromise (Sep 2025) highlights the fragility of the open-source ecosystem. A single successful phishing email enabled attackers to weaponize 18 foundational libraries with over 2.6 billion weekly downloads, threatening global application security. Although the impact was contained by rapid detection and the short infection window, the attack reveals systemic weaknesses: maintainer account protection, dependency trust, and registry monitoring. Going forward, organizations must adopt rigorous dependency hygiene, hardware-based MFA, SBOMs, and anomaly detection to defend against future supply chain attacks.</p>
+
+    <footer>
+      <div class="muted">This summary compiles publicly reported analysis of the Sep 2025 npm compromise. Contact the author for the full CTI PDF.</div>
+    </footer>
+  </div>
+</body>
+</html>
