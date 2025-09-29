@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Security Advisory — Phoenix: Rowhammer on DDR5 (CSA-2025-0928-PHOENIX)</title>
+  <style>
+    :root{--bg:#ffffff;--accent:#0b63c6;--muted:#6b7280}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; background:var(--bg); color:#111;margin:0;padding:40px;line-height:1.6}
+    .container{max-width:800px;margin:0 auto}
+    .hero{text-align:center;padding:28px;border-bottom:2px solid rgba(11,99,198,0.1)}
+    .hero img{
+  display: block;                /* allows margin:auto centering */
+  margin: 0 auto 14px;           /* center horizontally + bottom gap */
+  max-width: 320px;              /* don't get bigger than this on wide screens */
+  width: 100%;                   /* scale down on small screens */
+  height: auto;                  /* preserve aspect ratio */
+  object-fit: contain;           /* avoid cropping the logo */
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+}
+    h1{font-size:28px;margin:0;color:var(--accent)}
+    h2,h3,h4{color:var(--accent);margin-top:24px;margin-bottom:8px}
+    .meta{color:var(--muted);margin-top:6px}
+    p{margin:0 0 16px}
+    ul{margin:0 0 16px 20px}
+    table{width:100%;border-collapse:collapse;margin:16px 0}
+    th,td{padding:10px;border:1px solid #e5e7eb;text-align:left}
+    .footnote{font-size:13px;color:var(--muted)}
+    .btn{display:inline-block;padding:10px 14px;border-radius:8px;background:var(--accent);color:white;text-decoration:none;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <img src="phoenix-logo.png" alt="Phoenix advisory pattern"/>
+      <h1>Security Advisory — <span style="white-space:nowrap;">Phoenix: Rowhammer on DDR5</span></h1>
+      <div class="meta">Advisory ID: <strong>CSA-2025-0928-PHOENIX</strong> &nbsp; • &nbsp; CVE: <strong>CVE-2025-6202</strong> &nbsp; • &nbsp; Severity: <strong>High</strong></div>
+      <div class="meta">Published: <strong>28 September 2025</strong> &nbsp; • &nbsp; Discovered by: <strong>ETH Zurich (COMSEC)</strong> &amp; <strong>Google Security</strong></div>
+    </div>
+
+    <h2>Summary</h2>
+    <p><strong>Phoenix</strong> is a Rowhammer variant against DDR5 DRAM that bypasses on-die mitigations by exploiting timing blind spots in Target Row Refresh (TRR) and using long hammering sequences that remain synchronized with refresh commands via a <em>self-correcting refresh synchronization</em> mechanism. The researchers demonstrated exploitable bit flips on SK Hynix DDR5 DIMMs and end-to-end attacks including arbitrary read/write via PTE corruption, RSA key leakage, and local privilege escalation.</p>
+
+    <h2>Technical Details</h2>
+    <h3>Vulnerability Class</h3>
+    <p class="muted">Rowhammer (DRAM disturbance attack)</p>
+
+    <h3>Root Cause</h3>
+    <p>TRR implementations on the affected SK Hynix DDR5 modules exhibit non-uniform sampling across refresh intervals. Attackers can craft hammer patterns that target the lightly-sampled or unsampled tREFI intervals so TRR fails to refresh victim rows in time.</p>
+
+    <h3>Key Innovations</h3>
+    <ul>
+      <li><strong>P128</strong> — 128 tREFI interval pattern that targets lightly-sampled intervals.</li>
+      <li><strong>P2608</strong> — Extended 2608 tREFI interval pattern to match alternate sampling behaviors.</li>
+      <li><strong>Self-Correcting Refresh Synchronization</strong> — Periodic realignment mechanism to keep long patterns in phase with refresh commands.</li>
+    </ul>
+
+    <h3>Exploit Demonstrations</h3>
+    <ul>
+      <li>Page Table Entry (PTE) corruption → arbitrary read/write (100% tested DIMMs)</li>
+      <li>RSA-2048 key leakage in co-located VMs (~73% of DIMMs)</li>
+      <li><code>sudo</code> binary modification → local root escalation (~33% of DIMMs)</li>
+    </ul>
+
+    <h2>Impact</h2>
+    <p>Successful exploitation can lead to privilege escalation, secret extraction (SSH keys), and cross-VM compromise in multi-tenant environments.</p>
+    <p><strong>CVSS v3.1 (est.):</strong> 8.8 (High)</p>
+    <table>
+      <tr><th>Vector</th><th>Value</th></tr>
+      <tr><td>Attack Vector</td><td>Local</td></tr>
+      <tr><td>Attack Complexity</td><td>High</td></tr>
+      <tr><td>Privileges Required</td><td>Low</td></tr>
+      <tr><td>User Interaction</td><td>None</td></tr>
+    </table>
+
+    <h2>Mitigations</h2>
+    <h3>Immediate</h3>
+    <ul>
+      <li><strong>Increase DRAM refresh rate</strong> (tREFI ≈ 1.3 µs, ~3× default) — shown to block Phoenix; measured ~8.4% SPEC CPU2017 overhead.</li>
+      <li><strong>Apply vendor BIOS/firmware updates</strong> — vendors (e.g., AMD) released updates adjusting refresh scheduling and activation throttling.</li>
+      <li><strong>Enable patrol scrubbing / ECC</strong> — periodic correction of errors where supported.</li>
+    </ul>
+
+    <h3>Long-term</h3>
+    <ul>
+      <li>Principled TRR designs without sampling blind spots.</li>
+      <li>Hardware per-row activation counting and throttling in memory controllers.</li>
+      <li>DRAM revisions with Rowhammer-resilient architectures.</li>
+    </ul>
+
+    <h2>Affected Hardware</h2>
+    <p class="muted">15 SK Hynix DDR5 DIMMs (2021–2024) — all tested modules vulnerable to at least one pattern. ODECC does not prevent exploitation.</p>
+
+    <h2>Detection</h2>
+    <p>ETH Zurich published a PoC on GitHub for controlled testing (AMD Zen 4). Defensive signals to monitor:</p>
+    <ul>
+      <li>High row activation rates / abnormal DRAM activity</li>
+      <li>Performance counter anomalies (cache misses, row activations)</li>
+      <li>Spike in ECC corrections or unexplained bit flips</li>
+    </ul>
+
+    <h2>Disclosure Timeline</h2>
+    <p class="muted">06 Jun 2025 — Coordinated disclosure initiated<br/>12 Sep 2025 — Vendor notified (BIOS update availability)<br/>15 Sep 2025 — Embargo lifted<br/>28 Sep 2025 — Advisory published</p>
+
+    <h2>References</h2>
+    <p class="footnote">
+      • ETH Zurich COMSEC Phoenix project page<br/>
+      • Phoenix GitHub repository (POC + artifacts)<br/>
+      • Google Security Blog summary<br/>
+      • CVE-2025-6202
+    </p>
+
+    <h2>Action Required</h2>
+    <p>Organizations using DDR5 systems with SK Hynix DIMMs should immediately apply vendor BIOS/firmware updates and evaluate increasing DRAM refresh rates until hardware fixes or new DRAM revisions become available.</p>
+    <p class="footnote">Acknowledgments: ETH Zurich Computer Security Group (COMSEC) and Google Security. Disclosure coordination: Swiss NCSC.</p>
+    <div>
+      <a class="btn" href="https://github.com/comsec-group/phoenix" target="_blank" rel="noopener">View PoC & Artifacts (GitHub)</a>
+      <a class="btn" href="https://comsec.ethz.ch/research/dram/phoenix" style="background:#0f172a">Project Page</a>
+    </div>
+
+  </div>
+</body>
+</html>
