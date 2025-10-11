@@ -1,110 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CyberKiller Blogs — Devaraj Govindhan</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="CyberKiller Blog by Devaraj Govindhan — Cybersecurity, exploits, malware, scam analysis."/>
+  <title>CyberKiller Blog</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Optional: small reset -->
-  <style>
-    /* Minimal reset so appended CSS works predictably */
-    *, *::before, *::after { box-sizing: border-box; }
-  </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-inner">
-      <h1 class="brand"><a href="./">CyberKiller Blogs</a></h1>
-      <nav class="main-nav" aria-label="Main navigation">
-        <a href="./">Home</a>
-        <a href="#posts">Posts</a>
-        <a href="#toc">Table of Content</a>
-        <a href="https://www.linkedin.com/in/devaraj-govindhan-b143b2193/" target="_blank" rel="noopener" title="Devaraj on LinkedIn" class="linkedin-link">
-          <img src="Linkedin-logo.png" alt="LinkedIn" width="20" height="20">
-        </a>
-      </nav>
-    </div>
+
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <img src="Linkedin-logo.png" alt="Logo">
+      <ul>
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="https://www.linkedin.com/in/devaraj-govindhan-b143b2193/" target="_blank">LinkedIn</a></li>
+      </ul>
+      <div class="search">
+        <input type="text" placeholder="Search posts...">
+        <i class="fas fa-search"></i>
+      </div>
+    </nav>
   </header>
 
-  <!-- HERO: keep your existing container class so any background-image set in style.css is preserved -->
-  <section class="container hero">
+  <!-- Hero Section -->
+  <section class="hero">
     <div class="hero-content">
-      <h2>Cyber Security Makes Your Digital World Colorful</h2>
-      <p class="hero-sub">Writeups, pentests, malware analysis, tooling and notes by <strong>Devaraj Govindhan</strong></p>
-      <p class="byline"><em>— by Devaraj Govindhan</em></p>
+      <h1>Cyber Security Makes Your Digital World Colorful</h1>
+      <p>Welcome to CyberKiller Blog — by Devaraj Govindhan</p>
     </div>
   </section>
 
-  <main class="site-main">
-    <div class="main-grid">
-      <!-- Blog posts column -->
-      <section id="posts" class="posts">
-        <h2>Latest Posts</h2>
+  <!-- Blog Posts Section -->
+  <main class="blog-container">
 
-        <!-- Example post card (duplicate for each of your real posts) -->
-        <article class="post-card">
-          <h3 class="post-title"><a href="./Certified/index.html">HTB Certified Machine — walkthrough</a></h3>
-          <p class="post-excerpt">Step-by-step walkthrough and notes on the HTB Certified machine: enumeration, privilege escalation and remediation tips.</p>
-          <p class="post-meta">Category: HTB • <time datetime="2023-01-01">Jan 1, 2023</time></p>
-        </article>
+    <!-- Blog Card Template -->
+    <article class="blog-card">
+      <h2>HTB Certified Machine</h2>
+      <p>Walkthrough of a Hack The Box certified lab challenge focusing on realistic penetration testing techniques.</p>
+      <a href="./Certified/index.html">Read More →</a>
+    </article>
 
-        <article class="post-card">
-          <h3 class="post-title"><a href="./Administrator/index.html">HTB Administrator Machine — root achieved</a></h3>
-          <p class="post-excerpt">Complete analysis and exploitation path used to obtain administrator on the HTB Administrator machine.</p>
-          <p class="post-meta">Category: HTB • <time datetime="2023-01-15">Jan 15, 2023</time></p>
-        </article>
+    <article class="blog-card">
+      <h2>HTB Administrator Machine</h2>
+      <p>Administrator-level exploitation techniques explored in this Hack The Box machine walkthrough.</p>
+      <a href="./Administrator/index.html">Read More →</a>
+    </article>
 
-        <article class="post-card">
-          <h3 class="post-title"><a href="./Nmap/index.html">Network Scanning Tool — Nmap guide</a></h3>
-          <p class="post-excerpt">A concise guide to using Nmap for reconnaissance and common NSE scripts that save time.</p>
-          <p class="post-meta">Category: Tools • <time datetime="2023-02-10">Feb 10, 2023</time></p>
-        </article>
+    <article class="blog-card">
+      <h2>Network Scanning Tool (Nmap)</h2>
+      <p>How to use Nmap effectively for reconnaissance, port scanning, and vulnerability discovery.</p>
+      <a href="./Nmap/index.html">Read More →</a>
+    </article>
 
-        <!-- More posts: repeat similarly (or generate dynamically if you add templates later) -->
+    <article class="blog-card">
+      <h2>EternalBlue Vulnerability Exploit</h2>
+      <p>A deep dive into the SMBv1 vulnerability exploited by WannaCry and other malware campaigns.</p>
+      <a href="EternalBlue Vulnerability Exploit.html">Read More →</a>
+    </article>
 
-      </section>
+    <article class="blog-card">
+      <h2>Bugcrowd Scam</h2>
+      <p>Exploring red flags and scam indicators within the bug bounty and pentesting community.</p>
+      <a href="Bugcrowd_Scam.html">Read More →</a>
+    </article>
 
-      <!-- Sidebar / Table of Contents -->
-      <aside id="toc" class="sidebar">
-        <h2>Table of Content</h2>
-        <ul class="toc-list">
-          <li><a href="./Certified/index.html">HTB Certified Machine</a></li>
-          <li><a href="./Administrator/index.html">HTB Administrator Machine</a></li>
-          <li><a href="./Nmap/index.html">Network Scanning Tool</a></li>
-          <li><a href="EternalBlue Vulnerability Exploit.html">EternalBlue Vulnerability Exploit</a></li>
-          <li><a href="Bugcrowd_Scam.html">Bugcrowd_Scam</a></li>
-          <li><a href="IELTS & PTE Scam.html">IELTS & PTE Exam Scam</a></li>
-          <li><a href="Citizen Service Portal.html">Tamil Nilam Citizen Service</a></li>
-          <li><a href="Npm Supply Chain Attack.html">Npm Supply Chain Attack</a></li>
-          <li><a href="Phoenix Rowhammer Attacks.html">Phoenix Rowhammer Attack</a></li>
-          <li><a href="AD_Pentest/AD Pentest.html">Active Directory Forest Pentest</a></li>
-          <li><strong>Malware Analysis</strong>
-            <ul>
-              <li><a href="malware/Dire Wolf Ransomware Malware Analysis.html">Dire Wolf Ransomware</a></li>
-              <li><a href="malware/PyBitmessage Backdoor Malware Analysis.html">PyBitmessage Backdoor</a></li>
-              <li><a href="malware/Auto‑color ELF Malware Analysis.html">Auto‑color ELF</a></li>
-            </ul>
-          </li>
-        </ul>
+    <article class="blog-card">
+      <h2>IELTS & PTE Exam Scam</h2>
+      <p>Uncovering the fake certificate and score manipulation schemes targeting test takers globally.</p>
+      <a href="IELTS & PTE Scam.html">Read More →</a>
+    </article>
 
-        <div class="about-card">
-          <h3>About</h3>
-          <p>Hi — I'm Devaraj. I write about offensive security, malware analysis and defensive techniques.</p>
-          <a href="mailto:your-email@example.com">Contact</a>
-        </div>
-      </aside>
-    </div>
+    <article class="blog-card">
+      <h2>Tamil Nilam Citizen Service</h2>
+      <p>Security analysis of the Tamil Nadu land records and citizen service portal.</p>
+      <a href="Citizen Service Portal.html">Read More →</a>
+    </article>
+
+    <article class="blog-card">
+      <h2>NPM Supply Chain Attack</h2>
+      <p>Breakdown of modern JavaScript supply chain risks using NPM as the vector.</p>
+      <a href="Npm Supply Chain Attack.html">Read More →</a>
+    </article>
+
+    <article class="blog-card">
+      <h2>Phoenix Rowhammer Attack</h2>
+      <p>Analysis of a Rowhammer-based hardware attack with real-world impact.</p>
+      <a href="Phoenix Rowhammer Attacks.html">Read More →</a>
+    </article>
+
+    <article class="blog-card">
+      <h2>Active Directory Forest Pentest</h2>
+      <p>Forest-level AD exploitation techniques for internal enterprise pentests.</p>
+      <a href="AD_Pentest/AD Pentest.html">Read More →</a>
+    </article>
+
+    <article class="blog-card">
+      <h2>Dire Wolf Ransomware Analysis</h2>
+      <p>Reverse engineering and behavioral analysis of the Dire Wolf ransomware sample.</p>
+      <a href="malware/Dire Wolf Ransomware Malware Analysis.html">Read More →</a>
+    </article>
+
+    <article class="blog-card">
+      <h2>PyBitmessage Backdoor Analysis</h2>
+      <p>Malware embedded within a messaging platform designed to exfiltrate data.</p>
+      <a href="malware/PyBitmessage Backdoor Malware Analysis.html">Read More →</a>
+    </article>
+
+    <article class="blog-card">
+      <h2>Auto‑color ELF Malware</h2>
+      <p>Analysis of ELF-format malware targeting Linux systems with advanced stealth techniques.</p>
+      <a href="malware/Auto‑color ELF Malware Analysis.html">Read More →</a>
+    </article>
+
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <p>&copy; 2023–<span id="year"></span> Devaraj Govindhan. All rights reserved.</p>
-    </div>
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2023 CyberKiller Blog. All rights reserved by Devaraj Govindhan.</p>
   </footer>
 
-  <script>
-    // small script to set current year
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
