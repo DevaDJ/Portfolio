@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprehensive Steps After a Ransomware Attack – Root Cause Analysis and Recovery</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      background-color: #f5f7fa;
+      color: #222;
+    }
+    header, section, footer {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+    }
+    header {
+      background-color: #0b3954;
+      color: #fff;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    h1, h2, h3 {
+      color: #0b3954;
+    }
+    h2 {
+      border-bottom: 3px solid #007acc;
+      padding-bottom: 5px;
+      margin-top: 40px;
+    }
+    h3 {
+      margin-top: 25px;
+      color: #1b4f72;
+    }
+    ul, ol {
+      margin-left: 25px;
+    }
+    code {
+      background-color: #eef2f3;
+      padding: 2px 4px;
+      border-radius: 3px;
+      color: #333;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #007acc;
+      color: #fff;
+    }
+    footer {
+      text-align: center;
+      color: #666;
+      font-size: 0.9em;
+      background-color: #eaecef;
+      margin-top: 40px;
+      border-top: 1px solid #ccc;
+    }
+    section + section {
+    margin-top: 10px;
+    }
+    header h1 {color: #FFFFFF;}
+
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Comprehensive Steps After a Ransomware Attack</h1>
+  <p><em>From Incident Response to Root Cause Analysis and Recovery</em></p>
+</header>
+
+<section>
+  <h2>1. Immediate Response and Containment</h2>
+  <h3>1.1 Isolate Affected Systems</h3>
+  <ul>
+    <li>Disconnect infected systems from all networks (wired and wireless).</li>
+    <li>Disable shared drives and network shares.</li>
+    <li>Block known malicious domains or IPs.</li>
+    <li>Do <strong>not power off</strong> systems unless encryption is actively ongoing.</li>
+  </ul>
+
+  <h3>1.2 Activate Incident Response Plan</h3>
+  <ul>
+    <li>Notify the Incident Response (IR) or CSIRT team.</li>
+    <li>Inform executive leadership, legal, and compliance departments.</li>
+    <li>Contact cyber insurance and law enforcement if applicable.</li>
+  </ul>
+
+  <h3>1.3 Preserve Evidence</h3>
+  <ul>
+    <li>Create forensic images of infected systems.</li>
+    <li>Capture volatile data (RAM, running processes, network connections).</li>
+    <li>Record timestamps, affected systems, and user accounts involved.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>2. Initial Assessment</h2>
+  <h3>2.1 Identify Scope and Impact</h3>
+  <ul>
+    <li>Determine which systems and data were encrypted or accessed.</li>
+    <li>Assess whether sensitive or personal data was exfiltrated.</li>
+  </ul>
+
+  <h3>2.2 Determine Ransomware Variant</h3>
+  <ul>
+    <li>Review ransom notes or file extensions.</li>
+    <li>Use tools like <code>ID Ransomware</code> or <code>VirusTotal</code> to identify the strain.</li>
+    <li>Gather threat intelligence for known indicators of compromise (IOCs).</li>
+  </ul>
+
+  <h3>2.3 Review Backups</h3>
+  <ul>
+    <li>Verify backup availability and integrity.</li>
+    <li>Ensure backups are clean and isolated before restoration.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>3. Eradication and Recovery</h2>
+  <h3>3.1 Remove the Threat</h3>
+  <ul>
+    <li>Perform comprehensive malware scans and remove all malicious payloads.</li>
+    <li>Patch vulnerabilities exploited in the attack.</li>
+    <li>Reset and secure all compromised credentials.</li>
+    <li>Rebuild affected systems from trusted golden images.</li>
+  </ul>
+
+  <h3>3.2 Restore Systems</h3>
+  <ul>
+    <li>Restore from clean, verified backups.</li>
+    <li>Reintroduce systems to the network gradually under monitoring.</li>
+    <li>Check for persistence mechanisms such as scheduled tasks or registry entries.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>4. Root Cause Analysis (RCA)</h2>
+
+  <h3>4.1 Collect and Correlate Data</h3>
+  <p>Gather logs and forensic data from:</p>
+  <ul>
+    <li>Firewall, proxy, and SIEM systems</li>
+    <li>Windows Event Logs (Security, Sysmon, Application)</li>
+    <li>Email gateways, VPN, and remote access logs</li>
+    <li>Authentication (AD/LDAP) and file access logs</li>
+  </ul>
+
+  <h3>4.2 Trace the Initial Access Vector</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Attack Vector</th>
+        <th>What to Investigate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Phishing Email</td>
+        <td>Analyze headers, attachments, and user clicks.</td>
+      </tr>
+      <tr>
+        <td>Exposed RDP/VPN</td>
+        <td>Review brute-force attempts or unpatched systems.</td>
+      </tr>
+      <tr>
+        <td>Exploited Vulnerability</td>
+        <td>Check patch status and recent CVE exploit activity.</td>
+      </tr>
+      <tr>
+        <td>Compromised Credentials</td>
+        <td>Investigate credential reuse and password spraying logs.</td>
+      </tr>
+      <tr>
+        <td>Third-party Compromise</td>
+        <td>Review vendor access and external integrations.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>4.3 Map Lateral Movement</h3>
+  <ul>
+    <li>Identify internal movement methods (PsExec, SMB, WMI, PowerShell).</li>
+    <li>Look for privilege escalation or credential dumping.</li>
+    <li>Detect C2 (command-and-control) channels and data exfiltration routes.</li>
+  </ul>
+
+  <h3>4.4 Determine the Root Cause</h3>
+  <p>Answer these key questions:</p>
+  <ol>
+    <li>How did the attacker gain initial access?</li>
+    <li>Which security gaps allowed persistence or privilege escalation?</li>
+    <li>Why were existing controls ineffective?</li>
+  </ol>
+</section>
+
+<section>
+  <h2>5. Post-Incident Reporting and Hardening</h2>
+
+  <h3>5.1 Create a Detailed Incident Report</h3>
+  <ul>
+    <li>Include a full event timeline, impacted systems, IOCs, and RCA summary.</li>
+    <li>Document response actions and recovery progress.</li>
+    <li>Highlight key lessons learned for management review.</li>
+  </ul>
+
+  <h3>5.2 Strengthen Defenses</h3>
+  <ul>
+    <li>Patch all systems and applications.</li>
+    <li>Enhance endpoint, email, and network defenses.</li>
+    <li>Enforce least privilege access and multi-factor authentication (MFA).</li>
+    <li>Segment networks to minimize future ransomware spread.</li>
+  </ul>
+
+  <h3>5.3 Conduct User Awareness Training</h3>
+  <p>Educate employees on phishing, malicious attachments, and social engineering threats.</p>
+
+  <h3>5.4 Continuous Monitoring</h3>
+  <ul>
+    <li>Enable advanced SIEM alerting and correlation.</li>
+    <li>Deploy proactive threat hunting for early detection.</li>
+    <li>Subscribe to updated threat intelligence feeds.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>6. Law Enforcement and Compliance</h2>
+  <ul>
+    <li>Report the incident to national cybercrime or law enforcement authorities.</li>
+    <li>Notify regulators if personal data was affected (e.g., GDPR, HIPAA).</li>
+    <li>Communicate transparently with customers and stakeholders when required.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>&copy; 2025 Cybersecurity Incident Response Blog | Ransomware Recovery & Root Cause Analysis Guide</p>
+</footer>
+
+</body>
+</html>
