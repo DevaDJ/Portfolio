@@ -349,7 +349,7 @@ Update Linux kernels containing fixes for:
 
 <h3>2. Temporary Workaround</h3>
 
-<pre><code>cat <<EOF | sudo tee /etc/modprobe.d/disable-dirtyfrag.conf
+<pre><code>cat EOF | sudo tee /etc/modprobe.d/disable-dirtyfrag.conf
 install esp4 /bin/false
 install esp6 /bin/false
 install rxrpc /bin/false
