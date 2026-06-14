@@ -1,186 +1,158 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dirty Frag: A Silent 9-Year Linux Kernel Flaw</title>
+<title>Dirty Frag: A Silent 9-Year Linux Kernel Flaw Enabling Deterministic Root Access</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
---bg:#0d1117;
---card:#161b22;
---border:#30363d;
---text:#c9d1d9;
---title:#ffffff;
---accent:#ff3b3b;
-}
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Segoe UI,sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
 }
 
 body{
-background:var(--bg);
-color:var(--text);
-line-height:1.8;
-}
-
-.hero{
-height:500px;
-background:
-linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.75)),
-url('images/dirtyfrag-banner.jpg');
-background-size:cover;
-background-position:center;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-}
-
-.hero-content{
-max-width:900px;
-padding:20px;
-}
-
-.hero h1{
-font-size:3rem;
-color:white;
-margin-bottom:20px;
-}
-
-.hero p{
-font-size:1.1rem;
-color:#d0d0d0;
+    background:#0a0a0a;
+    color:#e5e5e5;
+    line-height:1.8;
 }
 
 .container{
-max-width:1100px;
-margin:auto;
-padding:50px 20px;
+    width:90%;
+    max-width:1100px;
+    margin:auto;
 }
 
-.meta{
-background:var(--card);
-border:1px solid var(--border);
-padding:20px;
-border-radius:10px;
-margin-bottom:30px;
+.hero{
+    background:linear-gradient(135deg,#0f172a,#111827,#000);
+    padding:100px 20px;
+    text-align:center;
+    border-bottom:1px solid #1f2937;
 }
 
-.toc{
-background:var(--card);
-border:1px solid var(--border);
-padding:25px;
-border-radius:10px;
-margin-bottom:40px;
+.hero h1{
+    font-size:3rem;
+    color:#fff;
+    margin-bottom:20px;
 }
 
-.toc h3{
-color:white;
-margin-bottom:15px;
+.hero p{
+    color:#9ca3af;
+    font-size:1.1rem;
 }
 
-.toc ul{
-padding-left:20px;
+.badge{
+    display:inline-block;
+    background:#dc2626;
+    color:white;
+    padding:8px 18px;
+    border-radius:30px;
+    font-size:.9rem;
+    font-weight:600;
+    margin-bottom:20px;
 }
 
-.toc a{
-color:#58a6ff;
-text-decoration:none;
+.section{
+    padding:60px 0;
 }
 
-.article{
-background:var(--card);
-padding:40px;
-border-radius:10px;
-border:1px solid var(--border);
+.section h2{
+    color:#fff;
+    margin-bottom:20px;
+    font-size:2rem;
+    border-left:4px solid #ef4444;
+    padding-left:15px;
 }
 
-.article h2{
-color:white;
-margin-top:40px;
-margin-bottom:15px;
-padding-bottom:10px;
-border-bottom:2px solid var(--accent);
-}
-
-.article h3{
-margin-top:25px;
-color:#fff;
+.card{
+    background:#111827;
+    border:1px solid #1f2937;
+    padding:25px;
+    border-radius:12px;
+    margin:20px 0;
 }
 
 .alert{
-background:#3a0d0d;
-border-left:5px solid red;
-padding:20px;
-margin:25px 0;
-border-radius:6px;
+    background:#7f1d1d;
+    border-left:5px solid #ef4444;
+    padding:20px;
+    margin:25px 0;
+    border-radius:8px;
+}
+
+.alert h3{
+    margin-bottom:10px;
 }
 
 table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
 }
 
 table th{
-background:#21262d;
-color:white;
+    background:#1f2937;
+    color:#fff;
 }
 
-table td,
-table th{
-padding:15px;
-border:1px solid var(--border);
+table td,table th{
+    border:1px solid #374151;
+    padding:15px;
+    text-align:left;
+}
+
+ul{
+    margin-left:20px;
+}
+
+li{
+    margin-bottom:10px;
 }
 
 .code{
-background:#010409;
-padding:20px;
-border-radius:8px;
-overflow:auto;
-font-family:monospace;
-color:#00ff88;
-margin:20px 0;
+    background:#000;
+    color:#00ff88;
+    padding:20px;
+    border-radius:10px;
+    overflow:auto;
+    font-family:monospace;
+    margin:20px 0;
 }
 
-footer{
-margin-top:80px;
-padding:40px;
-text-align:center;
-border-top:1px solid var(--border);
+.timeline{
+    border-left:3px solid #ef4444;
+    padding-left:25px;
 }
 
-footer h3{
-color:white;
+.timeline-item{
+    margin-bottom:25px;
 }
 
-.author-box{
-display:flex;
-gap:20px;
-align-items:center;
-background:#161b22;
-padding:20px;
-border-radius:10px;
-margin-top:50px;
+.timeline-item h4{
+    color:#ef4444;
 }
 
-.author-box img{
-width:70px;
-height:70px;
-border-radius:50%;
+.footer{
+    background:#050505;
+    border-top:1px solid #1f2937;
+    padding:40px;
+    text-align:center;
+    color:#9ca3af;
+}
+
+.highlight{
+    color:#ef4444;
+    font-weight:700;
 }
 
 @media(max-width:768px){
 .hero h1{
 font-size:2rem;
-}
-.article{
-padding:25px;
 }
 }
 </style>
@@ -189,102 +161,252 @@ padding:25px;
 <body>
 
 <section class="hero">
-<div class="hero-content">
-<h1>Dirty Frag: A Silent 9-Year Linux Kernel Flaw Enabling Deterministic Root Access</h1>
-<p>Published May 2026 • Critical Severity • Local Privilege Escalation → Root Compromise</p>
+<div class="container">
+
+<div class="badge">CRITICAL LINUX SECURITY ADVISORY</div>
+
+<h1>Dirty Frag</h1>
+
+<p>
+A Silent 9-Year Linux Kernel Flaw Enabling Deterministic Root Access
+</p>
+
+<p style="margin-top:15px;">
+Published: May 2026 • Severity: Critical • Impact: Local Privilege Escalation → Full Root Compromise
+</p>
+
 </div>
 </section>
 
 <div class="container">
 
-<div class="meta">
-<strong>Author:</strong> CyberArchitect Security Research Team<br>
-<strong>Category:</strong> Linux Security, Kernel Exploitation, Threat Research<br>
-<strong>Reading Time:</strong> 8 Minutes
-</div>
+<section class="section">
 
-<div class="toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#overview">Executive Overview</a></li>
-<li><a href="#dirtyfrag">What is Dirty Frag?</a></li>
-<li><a href="#impact">Why It Matters</a></li>
-<li><a href="#technical">Technical Insight</a></li>
-<li><a href="#affected">Affected Systems</a></li>
-<li><a href="#detection">Detection Challenges</a></li>
-<li><a href="#mitigation">Mitigation</a></li>
-<li><a href="#takeaways">Strategic Takeaways</a></li>
-</ul>
-</div>
-
-<div class="article">
-
-<section id="overview">
 <h2>Executive Overview</h2>
-<p>Dirty Frag is a newly disclosed Linux kernel vulnerability chain...</p>
+
+<div class="alert">
+<h3>⚠ Critical Security Alert</h3>
+<p>
+Dirty Frag is a newly disclosed Linux kernel vulnerability chain that enables reliable local privilege escalation to root without race conditions.
+</p>
+</div>
+
+<p>
+Unlike previous kernel exploits such as Dirty COW and Dirty Pipe, Dirty Frag delivers
+<strong>deterministic exploitation</strong>, making attacks highly reliable and easy to automate.
+</p>
+
+<ul>
+<li>Existed undetected for approximately 9 years</li>
+<li>Public proof-of-concept already available</li>
+<li>No race condition required</li>
+<li>Deterministic and scriptable exploitation</li>
+<li>Affects Linux kernels released between 2017 and May 2026</li>
+</ul>
+
 </section>
 
-<section id="dirtyfrag">
+<section class="section">
+
 <h2>What Is Dirty Frag?</h2>
+
+<p>
+Dirty Frag is a vulnerability chain composed of two independent Linux kernel flaws affecting networking subsystems.
+</p>
 
 <table>
 <tr>
 <th>CVE</th>
 <th>Component</th>
-<th>Issue</th>
+<th>Issue Type</th>
 </tr>
 
 <tr>
 <td>CVE-2026-43284</td>
-<td>xfrm-ESP</td>
-<td>Page Cache Write Flaw</td>
+<td>xfrm-ESP (esp4 / esp6)</td>
+<td>Page-cache write flaw</td>
 </tr>
 
 <tr>
 <td>CVE-2026-43500</td>
 <td>RxRPC</td>
-<td>Page Cache Write Flaw</td>
+<td>Page-cache write flaw</td>
 </tr>
 </table>
 
+<p style="margin-top:20px;">
+These vulnerabilities allow attackers to corrupt page-cache-backed memory and modify protected executable mappings without altering files on disk.
+</p>
+
 </section>
 
-<section id="impact">
+<section class="section">
+
 <h2>Why This Vulnerability Matters</h2>
 
-<div class="alert">
-<strong>Critical:</strong> No race conditions. Fully deterministic exploitation.
-</div>
+<div class="card">
+
+<h3>Key Characteristics</h3>
 
 <ul>
-<li>No race condition required</li>
-<li>Reliable exploitation</li>
-<li>Memory-only modifications</li>
-<li>Wide Linux exposure</li>
+<li><strong>No race condition required</strong></li>
+<li><strong>Deterministic exploitation</strong></li>
+<li><strong>Stealthy memory-only modification</strong></li>
+<li><strong>Wide exposure across Linux distributions</strong></li>
 </ul>
 
+</div>
+
 </section>
 
-<section id="technical">
+<section class="section">
+
 <h2>Technical Insight</h2>
 
-<p>Attack chain overview...</p>
+<p>
+At a high level, exploitation follows the sequence below:
+</p>
+
+<div class="card">
+
+<ol>
+<li>Attacker gains local code execution.</li>
+<li>Targets vulnerable networking modules.</li>
+<li>Manipulates fragmented page-cache memory.</li>
+<li>Overwrites protected executable mappings.</li>
+<li>Escalates privileges to root.</li>
+</ol>
+
+</div>
+
+<p>
+The critical innovation lies in fragment-aware page-cache manipulation, enabling precise and repeatable memory corruption.
+</p>
+
 </section>
 
-<section id="affected">
+<section class="section">
+
 <h2>Affected Systems</h2>
 
 <ul>
 <li>Ubuntu 24.04</li>
+<li>RHEL 10.x</li>
 <li>Fedora 44</li>
-<li>RHEL 10</li>
+<li>openSUSE Tumbleweed</li>
 <li>CentOS Stream 10</li>
+<li>AlmaLinux 10</li>
+</ul>
+
+<div class="alert">
+<p>
+If your Linux kernel falls within the 2017–May 2026 window, assume exposure until verified patched.
+</p>
+</div>
+
+</section>
+
+<section class="section">
+
+<h2>Real-World Risk</h2>
+
+<div class="card">
+
+<ul>
+<li>Instant user-to-root escalation</li>
+<li>Kernel-level malware deployment</li>
+<li>Credential theft</li>
+<li>Persistence installation</li>
+<li>Lateral movement across infrastructure</li>
+</ul>
+
+</div>
+
+<h3 style="margin-top:30px;">High-Risk Environments</h3>
+
+<ul>
+<li>Multi-user Linux servers</li>
+<li>Kubernetes clusters</li>
+<li>Docker hosts</li>
+<li>CI/CD pipelines</li>
+<li>Shared hosting environments</li>
 </ul>
 
 </section>
 
-<section id="mitigation">
-<h2>Mitigation</h2>
+<section class="section">
+
+<h2>Detection Challenges</h2>
+
+<div class="card">
+
+<ul>
+<li>Memory-only activity</li>
+<li>No file modifications</li>
+<li>No obvious disk artifacts</li>
+<li>Can appear as legitimate process behavior</li>
+</ul>
+
+</div>
+
+<h3>Indicators of Compromise</h3>
+
+<ul>
+<li>Unexpected root shells</li>
+<li>Privilege escalation events</li>
+<li>Suspicious elevated child processes</li>
+<li>Unusual esp4 / esp6 / rxrpc activity</li>
+<li>Kernel instability</li>
+</ul>
+
+</section>
+
+<section class="section">
+
+<h2>Disclosure Timeline</h2>
+
+<div class="timeline">
+
+<div class="timeline-item">
+<h4>April 30, 2026</h4>
+<p>Private disclosure submitted.</p>
+</div>
+
+<div class="timeline-item">
+<h4>May 7, 2026</h4>
+<p>Embargo broken by third-party disclosure.</p>
+</div>
+
+<div class="timeline-item">
+<h4>May 7, 2026</h4>
+<p>Public exploit released.</p>
+</div>
+
+<div class="timeline-item">
+<h4>May 8, 2026</h4>
+<p>Official kernel patch merged.</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2>Mitigation & Immediate Actions</h2>
+
+<h3>1. Patch Immediately</h3>
+
+<p>
+Update to Linux kernel versions containing fixes for:
+</p>
+
+<ul>
+<li>CVE-2026-43284</li>
+<li>CVE-2026-43500</li>
+</ul>
+
+<h3 style="margin-top:30px;">2. Temporary Workaround</h3>
 
 <div class="code">
 cat <<EOF | sudo tee /etc/modprobe.d/disable-dirtyfrag.conf
@@ -298,36 +420,95 @@ EOF
 sudo modprobe -r esp4 esp6 rxrpc
 </div>
 
-</section>
+<p>
+This workaround may impact IPsec VPN deployments and AFS-related services.
+</p>
 
-<section id="takeaways">
-<h2>Strategic Takeaways</h2>
+<h3 style="margin-top:30px;">3. Reduce Attack Surface</h3>
 
 <ul>
-<li>Patch immediately.</li>
-<li>Monitor privilege escalation events.</li>
-<li>Reduce local attack surface.</li>
-<li>Audit kernel module usage.</li>
+<li>Restrict local shell access</li>
+<li>Apply least-privilege principles</li>
+<li>Harden containers</li>
+<li>Monitor privileged accounts</li>
+</ul>
+
+<h3 style="margin-top:30px;">4. Strengthen Detection</h3>
+
+<ul>
+<li>Deploy EDR monitoring</li>
+<li>Audit kernel module activity</li>
+<li>Track privilege escalation behavior</li>
+<li>Focus on anomaly detection</li>
 </ul>
 
 </section>
 
-<div class="author-box">
-<img src="images/logo.png">
-<div>
-<h3>CyberArchitect Security Research Team</h3>
-<p>Advanced Threat Intelligence • Vulnerability Research • Incident Response</p>
-</div>
-</div>
+<section class="section">
+
+<h2>Strategic Takeaways</h2>
+
+<div class="card">
+
+<ul>
+<li>Long-lived kernel bugs remain a major threat.</li>
+<li>Memory attacks are harder to detect than file-based attacks.</li>
+<li>Deterministic exploits increase attacker success rates.</li>
+<li>Local access should never be considered low risk.</li>
+</ul>
 
 </div>
 
-<footer>
-<h3>CyberArchitect</h3>
-<p>Research. Exploit Analysis. Threat Intelligence.</p>
+</section>
+
+<section class="section">
+
+<h2>Final Thoughts</h2>
+
+<div class="alert">
+
+<p>
+Dirty Frag represents one of the most significant Linux local privilege escalation disclosures in recent years.
+</p>
+
+<p>
+With public exploit code already circulating, organizations should treat this as an active threat and prioritize patching immediately.
+</p>
+
+<p>
+<span class="highlight">
+If you run Linux in production, patch now — not later.
+</span>
+</p>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2>References</h2>
+
+<ul>
+<li>Public Dirty Frag PoC Repository</li>
+<li>Linux Kernel Security Mailing Lists</li>
+<li>Kernel Patch Discussions & Commits</li>
+<li>Security Research Disclosures</li>
+</ul>
+
+</section>
+
+</div>
+
+<footer class="footer">
+<p>
+CyberArchitect Security Research Team
+</p>
+<p>
+© 2026 Security Research & Threat Intelligence
+</p>
 </footer>
-
-</div>
 
 </body>
 </html>
+```
